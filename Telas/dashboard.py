@@ -38,17 +38,16 @@ class Dash:
         if len(arq)>0:
 
             excel_df=pd.read_excel(stk_path)
+
+            colunas=['Empresa','SKU']
+            col_leach={'Qtde':'sum'}
+            baixa_df=excel_df.loc[excel_df['Data'].dt.date<datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
+            baixa_df.rename(columns={'Qtde':'Saida'},inplace=True)
+            pend_df=excel_df.loc[excel_df['Data'].dt.date==datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
+            pend_df.rename(columns={'Qtde':'Pendente'},inplace=True)            
             
             pass
-
-        colunas=['Empresa','SKU']
-        col_leach={'Qtde':'sum'}
-        baixa_df=excel_df.loc[excel_df['Data'].dt.date<datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
-        baixa_df.rename(columns={'Qtde':'Saida'},inplace=True)
-        pend_df=excel_df.loc[excel_df['Data'].dt.date==datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
-        pend_df.rename(columns={'Qtde':'Pendente'},inplace=True)
         
-
         var_dict=dict()
 
         with placeholder.container():
