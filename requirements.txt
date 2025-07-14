@@ -21,3 +21,5 @@ streamlit-vertical-slider==2.5.5
 sockets==1.0.0
 pandas==2.2.3
 xmltodict==0.14.2
+openpyxl==3.1.0
+openpyxl-image-loader==1.0.5
