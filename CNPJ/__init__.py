@@ -1,0 +1,1 @@
+from .dados_cnpj import CNPJ
