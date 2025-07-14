@@ -195,9 +195,11 @@ class Dash:
                         colunas=['Empresa','SKU','Produto','Unid CMP']
                         col_leach={'Qtde':'sum'}
                         temp_df=df.loc[df['Empresa'].isin(st.session_state['mult3'])].groupby(colunas,as_index=False).agg(col_leach)
+                        temp_df['Pendente']=0
+                        temp_df['Saldo']=0
 
                         arq=glob(stk_path)
-
+                        
                         if len(arq)>0:
 
                             temp_df=temp_df.merge(baixa_df,on=['Empresa','SKU'],how='left')
@@ -408,7 +410,7 @@ class Dash:
 
             with divs[0].container():
 
-                var=df.loc[df['Produto']==st.session_state['select1'],'Qtde'].sum() if st.session_state['select1']!=None else 0.00
+                var=df.loc[df['Produto']==st.session_state['select1'],'Qtde'].sum()-df.loc[df['Produto']==st.session_state['select1'],'Pendente'].sum() if st.session_state['select1']!=None else 0.00
                 st.number_input('Estoque',key='qtde_stk',value=var,disabled=True,format='%.2f')
 
                 pass
