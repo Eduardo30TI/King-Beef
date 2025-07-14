@@ -6,7 +6,6 @@ from glob import glob
 path_excel=os.path.join(os.getcwd(),'Notas')
 excel='notas.xlsx'
 
-@st.cache_data(show_spinner='Carregando')
 def dados():
 
     temp_path=os.path.join(path_excel,excel)
