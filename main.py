@@ -170,7 +170,7 @@ class Login:
                             time.sleep(1)
                             mensagem.empty()
 
-                            time.sleep(1)
+                            time.sleep(5)
                             streamlit_js_eval(js_expressions='parent.window.location.reload()')                   
 
                             pass

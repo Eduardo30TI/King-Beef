@@ -41,6 +41,7 @@ class Dash:
 
             colunas=['Empresa','SKU']
             col_leach={'Qtde':'sum'}
+            
             baixa_df=excel_df.loc[excel_df['Data'].dt.date<datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
             baixa_df.rename(columns={'Qtde':'Saida'},inplace=True)
             pend_df=excel_df.loc[excel_df['Data'].dt.date==datetime.now().date()].groupby(colunas,as_index=False).agg(col_leach)
@@ -194,12 +195,19 @@ class Dash:
                         colunas=['Empresa','SKU','Produto','Unid CMP']
                         col_leach={'Qtde':'sum'}
                         temp_df=df.loc[df['Empresa'].isin(st.session_state['mult3'])].groupby(colunas,as_index=False).agg(col_leach)
-                        temp_df=temp_df.merge(baixa_df,on=['Empresa','SKU'],how='left')
-                        temp_df=temp_df.merge(pend_df,on=['Empresa','SKU'],how='left')
-                        temp_df.fillna(0,inplace=True)
-                        temp_df['Qtde']=temp_df.apply(lambda info: info['Qtde']-info['Saida'],axis=1)
-                        temp_df.drop(columns=['Saida'],inplace=True)
-                        temp_df['Saldo']=temp_df.apply(lambda info: info['Qtde']-info['Pendente'],axis=1)
+
+                        arq=glob(stk_path)
+
+                        if len(arq)>0:
+
+                            temp_df=temp_df.merge(baixa_df,on=['Empresa','SKU'],how='left')
+                            temp_df=temp_df.merge(pend_df,on=['Empresa','SKU'],how='left')
+                            temp_df.fillna(0,inplace=True)
+                            temp_df['Qtde']=temp_df.apply(lambda info: info['Qtde']-info['Saida'],axis=1)
+                            temp_df.drop(columns=['Saida'],inplace=True)
+                            temp_df['Saldo']=temp_df.apply(lambda info: info['Qtde']-info['Pendente'],axis=1)
+
+                            pass
 
                         temp_df.sort_values('Qtde',ascending=False,ignore_index=True,inplace=True)
 
@@ -311,11 +319,9 @@ class Dash:
 
                     os.remove(arq)
 
-                    st.cache_data.clear()
-                    st.rerun()
-
                     pass
-
+                
+                st.cache_data.clear()
                 st.rerun()
 
                 pass
