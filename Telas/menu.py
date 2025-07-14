@@ -42,7 +42,7 @@ class Menu:
                 st.image('Logo/logo.png')
                 st.text(user_name)
 
-                option_menu(menu_title='Opções',options=['Importar XML','Dashboard','Sair'],key='opc')
+                option_menu(menu_title='Opções',options=['Importar XML','Dashboard','Sair'],icons=['clipboard2','speedometer','box-arrow-left'],key='opc')
 
                 pass
 
